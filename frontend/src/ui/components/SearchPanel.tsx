@@ -3,7 +3,7 @@ import { IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { TextField, Button, Box, Typography } from '@mui/material';
 import L from 'leaflet';
-import CompositionExample from '../gauge';
+import CompositionExample from './gauge';
 
 
 interface SearchPanelProps {
@@ -147,10 +147,13 @@ const SearchPanel: React.FC<SearchPanelProps> = ({ onFromLocationSet, onToLocati
             borderRadius: '4px',
             textAlign: 'center',
             fontSize: '0.9rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
           <Typography variant="body2">
-            {isObjectDetected ? 'Object Detected!' : 'No Object'}
+            {isObjectDetected ? 'OBJECT FOUND PLEASE STANDBY' : 'NO OBJECT DETECTED.'}
           </Typography>
         </Box>
         <Box
