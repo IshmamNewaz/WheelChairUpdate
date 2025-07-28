@@ -84,7 +84,7 @@ function App() {
 
   // Simulate speed change for demonstration
   const incrementSpeed = () => {
-    setSpeed(prev => (prev + 1) % 10); // Cycle speed from 0 to 9
+    setSpeed(prev => (prev >= 100) ? 0 : prev + 10); // Reset to 0 if 100, otherwise increment by 10
   };
   
 

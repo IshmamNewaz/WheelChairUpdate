@@ -30,6 +30,8 @@ function GaugePointer() {
   );
 }
 
+
+
 export default function CompositionExample({ value }: { value: number }) {
   return (
     <GaugeContainer
@@ -43,6 +45,16 @@ export default function CompositionExample({ value }: { value: number }) {
       <GaugeReferenceArc />
       <GaugeValueArc />
       <GaugePointer />
+      <text
+        x={100} // Center horizontally
+        y={180} // Position below the gauge
+        textAnchor="middle"
+        dominantBaseline="middle"
+        fontSize="24px"
+        fill={value >= 70 ? 'red' : 'white'}
+      >
+        {value}
+      </text>
     </GaugeContainer>
   );
 }

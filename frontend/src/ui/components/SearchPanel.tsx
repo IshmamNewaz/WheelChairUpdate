@@ -165,7 +165,7 @@ const SearchPanel: React.FC<SearchPanelProps> = ({ onFromLocationSet, onToLocati
             alignItems: 'center',
           }}
         >
-          <CompositionExample value={speed * 10} />
+          <CompositionExample value={speed} />
         </Box>
       </Box>
       {/* Toggle Button for Demonstration */}
