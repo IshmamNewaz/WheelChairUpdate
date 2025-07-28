@@ -9,6 +9,7 @@ declare module 'leaflet' {
       addWaypoints?: boolean;
       fitSelectedRoutes?: boolean;
       show?: boolean;
+      language?: string;
     }
 
     class Control extends L.Control {

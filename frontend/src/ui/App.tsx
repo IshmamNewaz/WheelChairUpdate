@@ -4,7 +4,7 @@ import SplashScreen from './components/SplashScreen.tsx'
 import SearchPanel from './components/SearchPanel.tsx'
 import ExitConfirmationDialog from './components/ExitConfirmationDialog.tsx'
 import L from 'leaflet';
-import { Box } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 
 declare global {
   interface Window {
@@ -23,6 +23,7 @@ function App() {
   const [toLocation, setToLocation] = useState<L.LatLngExpression | null>(null);
   const [searchResult, setSearchResult] = useState<L.LatLngExpression | null>(null);
   const [showExitDialog, setShowExitDialog] = useState(false);
+  const [isObjectDetected, setIsObjectDetected] = useState(false); // New state for object detection
 
   const handleAnimationComplete = () => {
     setShowSplash(false);
@@ -70,6 +71,11 @@ function App() {
     setShowExitDialog(false);
   };
 
+  // Simulate object detection for demonstration
+  const toggleObjectDetection = () => {
+    setIsObjectDetected(prev => !prev);
+  };
+
   useEffect(() => {
     console.log('App.tsx State Update:');
     console.log('  userGeolocation:', userGeolocation);
@@ -77,7 +83,8 @@ function App() {
     console.log('  toLocation (from SearchPanel):', toLocation);
     console.log('  MapWithRoute origin prop:', fromLocation || userGeolocation);
     console.log('  MapWithRoute destination prop:', toLocation);
-  }, [userGeolocation, fromLocation, toLocation]);
+    console.log('  Object Detected:', isObjectDetected); // Log object detection status
+  }, [userGeolocation, fromLocation, toLocation, isObjectDetected]);
 
   return (
     <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
@@ -85,12 +92,14 @@ function App() {
         <SplashScreen onAnimationComplete={handleAnimationComplete} />
       ) : (
         <Box sx={{ display: 'flex', width: '100%', height: '100%' }}>
-          <Box sx={{ width: '50%', height: '100%', overflow: 'hidden' }}>
+          <Box sx={{ width: '50%', height: '100%', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
             <SearchPanel
               onSearchResult={handleSearchResult}
               onFromLocationSet={handleFromLocationSet}
               onToLocationSet={handleToLocationSet}
               onExitClick={handleExitClick}
+              isObjectDetected={isObjectDetected}
+              toggleObjectDetection={toggleObjectDetection}
             />
           </Box>
           <Box sx={{ width: '50%', height: '100%' }}>

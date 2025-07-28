@@ -9,9 +9,11 @@ interface SearchPanelProps {
   onToLocationSet: (location: L.LatLngExpression | null) => void;
   onSearchResult: (result: L.LatLngExpression | null) => void;
   onExitClick: () => void;
+  isObjectDetected: boolean;
+  toggleObjectDetection: () => void;
 }
 
-const SearchPanel: React.FC<SearchPanelProps> = ({ onFromLocationSet, onToLocationSet, onSearchResult, onExitClick }) => {
+const SearchPanel: React.FC<SearchPanelProps> = ({ onFromLocationSet, onToLocationSet, onSearchResult, onExitClick, isObjectDetected, toggleObjectDetection }) => {
   const [showRoutePanel, setShowRoutePanel] = useState<boolean>(false);
   const [fromSearchTerm, setFromSearchTerm] = useState<string>('');
   const [toSearchTerm, setToSearchTerm] = useState<string>('');
@@ -129,6 +131,36 @@ const SearchPanel: React.FC<SearchPanelProps> = ({ onFromLocationSet, onToLocati
           Use Map
         </Button>
       )}
+      {/* Object Detection Indicator */}
+      <Box
+        sx={{
+          mt: 2, // Margin top for spacing
+          mb: 2, // Margin bottom for spacing
+          backgroundColor: isObjectDetected ? 'red' : 'green',
+          color: 'white',
+          padding: '6px 10px',
+          borderRadius: '4px',
+          textAlign: 'center',
+          fontSize: '0.9rem', // Smaller font size
+        }}
+      >
+        <Typography variant="body2">
+          {isObjectDetected ? 'Object Detected!' : 'No Object'}
+        </Typography>
+      </Box>
+      {/* Toggle Button for Demonstration */}
+      <Button
+        variant="contained"
+        onClick={toggleObjectDetection}
+        fullWidth
+        sx={{
+          mb: 2, // Margin bottom for spacing
+          fontSize: '0.8rem', // Smaller font size
+          padding: '6px 12px', // Smaller padding
+        }}
+      >
+        Toggle Object Detection
+      </Button>
       <Box sx={{ mt: 'auto' }}>
         <Button variant="contained" color="error" onClick={onExitClick} fullWidth>
           Exit App

@@ -42,6 +42,7 @@ const RoutingMachine: React.FC<RoutingMachineProps> = ({ origin, destination }) 
       addWaypoints: false,
       fitSelectedRoutes: true,
       show: false, // Hide the routing instructions panel
+      language: 'en', // Set language to English
     }).addTo(map);
 
     return () => {
