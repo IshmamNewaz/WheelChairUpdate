@@ -3,6 +3,8 @@ import { IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { TextField, Button, Box, Typography } from '@mui/material';
 import L from 'leaflet';
+import CompositionExample from '../gauge';
+
 
 interface SearchPanelProps {
   onFromLocationSet: (location: L.LatLngExpression | null) => void;
@@ -11,9 +13,11 @@ interface SearchPanelProps {
   onExitClick: () => void;
   isObjectDetected: boolean;
   toggleObjectDetection: () => void;
+  speed: number;
+  incrementSpeed: () => void;
 }
 
-const SearchPanel: React.FC<SearchPanelProps> = ({ onFromLocationSet, onToLocationSet, onSearchResult, onExitClick, isObjectDetected, toggleObjectDetection }) => {
+const SearchPanel: React.FC<SearchPanelProps> = ({ onFromLocationSet, onToLocationSet, onSearchResult, onExitClick, isObjectDetected, toggleObjectDetection, speed, incrementSpeed }) => {
   const [showRoutePanel, setShowRoutePanel] = useState<boolean>(false);
   const [fromSearchTerm, setFromSearchTerm] = useState<string>('');
   const [toSearchTerm, setToSearchTerm] = useState<string>('');
@@ -131,36 +135,61 @@ const SearchPanel: React.FC<SearchPanelProps> = ({ onFromLocationSet, onToLocati
           Use Map
         </Button>
       )}
-      {/* Object Detection Indicator */}
-      <Box
-        sx={{
-          mt: 2, // Margin top for spacing
-          mb: 2, // Margin bottom for spacing
-          backgroundColor: isObjectDetected ? 'red' : 'green',
-          color: 'white',
-          padding: '6px 10px',
-          borderRadius: '4px',
-          textAlign: 'center',
-          fontSize: '0.9rem', // Smaller font size
-        }}
-      >
-        <Typography variant="body2">
-          {isObjectDetected ? 'Object Detected!' : 'No Object'}
-        </Typography>
+      {/* Object Detection and Speed Indicators */}
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2, mb: 2 }}>
+        <Box
+          sx={{
+            flex: 1,
+            mr: 1, // Margin right for spacing between the two boxes
+            backgroundColor: isObjectDetected ? 'red' : 'green',
+            color: 'white',
+            padding: '6px 10px',
+            borderRadius: '4px',
+            textAlign: 'center',
+            fontSize: '0.9rem',
+          }}
+        >
+          <Typography variant="body2">
+            {isObjectDetected ? 'Object Detected!' : 'No Object'}
+          </Typography>
+        </Box>
+        <Box
+          sx={{
+            flex: 1,
+            ml: 1, // Margin left for spacing
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <CompositionExample value={speed * 10} />
+        </Box>
       </Box>
       {/* Toggle Button for Demonstration */}
-      <Button
-        variant="contained"
-        onClick={toggleObjectDetection}
-        fullWidth
-        sx={{
-          mb: 2, // Margin bottom for spacing
-          fontSize: '0.8rem', // Smaller font size
-          padding: '6px 12px', // Smaller padding
-        }}
-      >
-        Toggle Object Detection
-      </Button>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, mb: 2 }}>
+        <Button
+          variant="contained"
+          onClick={toggleObjectDetection}
+          sx={{
+            flex: 1,
+            fontSize: '0.8rem', // Smaller font size
+            padding: '6px 12px', // Smaller padding
+          }}
+        >
+          Toggle Object Detection
+        </Button>
+        <Button
+          variant="contained"
+          onClick={incrementSpeed}
+          sx={{
+            flex: 1,
+            fontSize: '0.8rem', // Smaller font size
+            padding: '6px 12px', // Smaller padding
+          }}
+        >
+          Increment Speed
+        </Button>
+      </Box>
       <Box sx={{ mt: 'auto' }}>
         <Button variant="contained" color="error" onClick={onExitClick} fullWidth>
           Exit App

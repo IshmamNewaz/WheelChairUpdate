@@ -4,7 +4,9 @@ import SplashScreen from './components/SplashScreen.tsx'
 import SearchPanel from './components/SearchPanel.tsx'
 import ExitConfirmationDialog from './components/ExitConfirmationDialog.tsx'
 import L from 'leaflet';
-import { Box, Button, Typography } from '@mui/material';
+import { Box } from '@mui/material';
+
+
 
 declare global {
   interface Window {
@@ -24,6 +26,7 @@ function App() {
   const [searchResult, setSearchResult] = useState<L.LatLngExpression | null>(null);
   const [showExitDialog, setShowExitDialog] = useState(false);
   const [isObjectDetected, setIsObjectDetected] = useState(false); // New state for object detection
+  const [speed, setSpeed] = useState(0); // New state for speed
 
   const handleAnimationComplete = () => {
     setShowSplash(false);
@@ -36,6 +39,9 @@ function App() {
           const userLoc: L.LatLngExpression = [pos.coords.latitude, pos.coords.longitude];
           setUserGeolocation(userLoc);
           setFromLocation(userLoc);
+          if (pos.coords.speed !== null) {
+            setSpeed(pos.coords.speed); // Update speed from geolocation if available
+          }
         },
         err => {
           console.error("Error getting geolocation:", err);
@@ -76,6 +82,12 @@ function App() {
     setIsObjectDetected(prev => !prev);
   };
 
+  // Simulate speed change for demonstration
+  const incrementSpeed = () => {
+    setSpeed(prev => (prev + 1) % 10); // Cycle speed from 0 to 9
+  };
+  
+
   useEffect(() => {
     console.log('App.tsx State Update:');
     console.log('  userGeolocation:', userGeolocation);
@@ -84,7 +96,8 @@ function App() {
     console.log('  MapWithRoute origin prop:', fromLocation || userGeolocation);
     console.log('  MapWithRoute destination prop:', toLocation);
     console.log('  Object Detected:', isObjectDetected); // Log object detection status
-  }, [userGeolocation, fromLocation, toLocation, isObjectDetected]);
+    console.log('  Speed:', speed); // Log speed status
+  }, [userGeolocation, fromLocation, toLocation, isObjectDetected, speed]);
 
   return (
     <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
@@ -100,7 +113,10 @@ function App() {
               onExitClick={handleExitClick}
               isObjectDetected={isObjectDetected}
               toggleObjectDetection={toggleObjectDetection}
+              speed={speed}
+              incrementSpeed={incrementSpeed}
             />
+            
           </Box>
           <Box sx={{ width: '50%', height: '100%' }}>
             <MapWithRoute
