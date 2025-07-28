@@ -3,8 +3,8 @@ import path from "path";
 
 app.on("ready", () => {
   const mainWindow = new BrowserWindow({
-    height: 480,
-    width: 800,
+    height: 720,
+    width: 1280,
     fullscreen: false,
     minimizable: false,
     autoHideMenuBar: true,

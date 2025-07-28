@@ -4,8 +4,8 @@ import SplashScreen from './components/SplashScreen.tsx'
 import SearchPanel from './components/SearchPanel.tsx'
 import ExitConfirmationDialog from './components/ExitConfirmationDialog.tsx'
 import L from 'leaflet';
-import { Box } from '@mui/material';
-
+import { Box, Button } from '@mui/material'; // Added Button import
+import BatteryDisplay from './components/BatteryDisplay';
 
 
 declare global {
@@ -27,6 +27,7 @@ function App() {
   const [showExitDialog, setShowExitDialog] = useState(false);
   const [isObjectDetected, setIsObjectDetected] = useState(false); // New state for object detection
   const [speed, setSpeed] = useState(0); // New state for speed
+  const [batteryPercentage, setBatteryPercentage] = useState<number>(80); // New state for battery percentage
 
   const handleAnimationComplete = () => {
     setShowSplash(false);
@@ -86,7 +87,16 @@ function App() {
   const incrementSpeed = () => {
     setSpeed(prev => (prev >= 100) ? 0 : prev + 10); // Reset to 0 if 100, otherwise increment by 10
   };
-  
+
+  // Simulate battery change for demonstration
+  const increaseBattery = () => {
+    setBatteryPercentage(prev => Math.min(prev + 10, 100));
+  };
+
+  const decreaseBattery = () => {
+    setBatteryPercentage(prev => Math.max(prev - 10, 0));
+  };
+
 
   useEffect(() => {
     console.log('App.tsx State Update:');
@@ -97,7 +107,8 @@ function App() {
     console.log('  MapWithRoute destination prop:', toLocation);
     console.log('  Object Detected:', isObjectDetected); // Log object detection status
     console.log('  Speed:', speed); // Log speed status
-  }, [userGeolocation, fromLocation, toLocation, isObjectDetected, speed]);
+    console.log('  Battery:', batteryPercentage); // Log battery status
+  }, [userGeolocation, fromLocation, toLocation, isObjectDetected, speed, batteryPercentage]);
 
   return (
     <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
@@ -106,6 +117,9 @@ function App() {
       ) : (
         <Box sx={{ display: 'flex', width: '100%', height: '100%' }}>
           <Box sx={{ width: '50%', height: '100%', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 2 }}>
+              <BatteryDisplay percentage={batteryPercentage} />
+            </Box>
             <SearchPanel
               onSearchResult={handleSearchResult}
               onFromLocationSet={handleFromLocationSet}
@@ -116,8 +130,14 @@ function App() {
               speed={speed}
               incrementSpeed={incrementSpeed}
             />
-            
+            <Box sx={{ display: 'flex', justifyContent: 'space-around', mt: 1 }}>
+              <Button variant="contained" onClick={increaseBattery}>Increase Battery</Button>
+              <Button variant="contained" onClick={decreaseBattery}>Decrease Battery</Button>
+            </Box>
           </Box>
+
+
+          
           <Box sx={{ width: '50%', height: '100%' }}>
             <MapWithRoute
               origin={fromLocation || userGeolocation}

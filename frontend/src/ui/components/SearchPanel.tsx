@@ -6,6 +6,7 @@ import L from 'leaflet';
 import CompositionExample from './gauge';
 
 
+
 interface SearchPanelProps {
   onFromLocationSet: (location: L.LatLngExpression | null) => void;
   onToLocationSet: (location: L.LatLngExpression | null) => void;
