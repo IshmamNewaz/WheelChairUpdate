@@ -51,7 +51,9 @@ export default function CompositionExample({ value }: { value: number }) {
         textAnchor="middle"
         dominantBaseline="middle"
         fontSize="24px"
-        fill={value >= 70 ? 'red' : 'white'}
+        fill="white"
+        className="gauge-speed-value"
+        
       >
         {value}
       </text>
